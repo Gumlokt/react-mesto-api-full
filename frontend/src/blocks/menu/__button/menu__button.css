@@ -1,0 +1,17 @@
+.menu__button {
+  box-sizing: border-box;
+  margin: 24px 0 0 0;
+  padding: 0;
+  border: none;
+  background-color: #000;
+  color: #a9a9a9;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: right;
+  transition: opacity 0.4s linear;
+}
+
+.menu__button:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}

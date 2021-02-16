@@ -1,0 +1,11 @@
+.form__text-input_theme_dark {
+  background-color: #000;
+  border-bottom: 2px solid #ccc;
+  color: #ccc;
+  height: 35px;
+  margin: 0 0 22px;
+}
+
+.form__text-input_theme_dark:focus {
+  border-bottom: 2px solid #ccc;
+}

@@ -1,0 +1,23 @@
+.header__button {
+  box-sizing: border-box;
+  margin: 0 0 0 24px;
+  padding: 0;
+  border: none;
+  background-color: #000;
+  color: #a9a9a9;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: right;
+  transition: opacity 0.4s linear;
+}
+
+.header__button:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 620px) {
+  .header__button {
+    display: none;
+  }
+}

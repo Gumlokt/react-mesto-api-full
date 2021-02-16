@@ -1,0 +1,8 @@
+.form__suggestion {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 15px 0 0;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}

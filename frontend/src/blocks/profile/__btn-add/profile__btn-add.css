@@ -1,0 +1,39 @@
+.profile__btn-add {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  width: 150px;
+  height: 50px;
+  border: 2px solid #fff;
+  border-radius: 2px;
+  background-color: transparent;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity .4s linear;
+
+  background-image: url(../../../images/icons/icon-plus.svg);
+  background-size: 22px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.profile__btn-add:hover {
+  cursor: pointer;
+  opacity: .6;
+}
+
+@media screen and (max-width: 920px) {
+  .profile__btn-add {
+    align-self: flex-end;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .profile__btn-add {
+    width: 282px;
+    align-self: center;
+    background-size: 16px;
+  }
+}

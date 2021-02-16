@@ -1,0 +1,35 @@
+.popup__btn-close {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  top: -44px;
+  right: -44px;
+  border: 0;
+  background-color: transparent;
+  transform: rotate(45deg);
+  transition: transform 0.5s ease;
+
+  background-image: url(../../../images/icons/icon-plus.svg);
+  background-size: 40px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.popup__btn-close:hover {
+  cursor: pointer;
+  opacity: 0.6;
+  transform: rotate(135deg);
+}
+
+@media screen and (max-width: 620px) {
+  .popup__btn-close {
+    width: 42px;
+    height: 42px;
+    top: -65px;
+    left: calc(50% - 21px);
+    background-size: 30px;
+  }
+}

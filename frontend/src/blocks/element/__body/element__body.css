@@ -1,0 +1,10 @@
+.element__body {
+  box-sizing: border-box;
+  margin: 21px 21px 23px;
+  width: 100%;
+  max-width: 240px;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

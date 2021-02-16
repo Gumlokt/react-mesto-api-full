@@ -1,0 +1,23 @@
+.header__menu {
+  display: none;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0px;
+  background-color: transparent;
+  height: 12px;
+  cursor: pointer;
+  transition: opacity 0.4s linear;
+}
+
+.header__menu:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 620px) {
+  .header__menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}

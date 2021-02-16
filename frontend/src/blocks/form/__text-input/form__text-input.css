@@ -1,0 +1,32 @@
+.form__text-input {
+  box-sizing: border-box;
+  margin: 0 0 30px;
+  padding: 0;
+  height: 27px;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  outline: 0;
+  font-size: 14px;
+  line-height: 17px;
+  min-width: 358px;
+  max-width: 358px;
+}
+
+.form__text-input:last-of-type {
+  margin: 0 0 48px;
+}
+
+.form__text-input:focus {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+@media screen and (max-width: 620px) {
+  .form__text-input {
+    height: 24px;
+    margin: 0 0 20px;
+    font-size: 12px;
+    line-height: 15px;
+    min-width: 238px;
+    max-width: 238px;
+  }
+}
