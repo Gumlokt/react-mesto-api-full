@@ -8,7 +8,9 @@ module.exports.getUser = (req, res) => {
     })
     .catch((err) => {
       if (err.message === 'ErrorGettingUserProfile') {
-        res.status(404).send({ message: 'Пользователь с указанным ID отсутствует' });
+        res
+          .status(404)
+          .send({ message: 'Пользователь с указанным ID отсутствует' });
         return;
       }
 
@@ -17,7 +19,9 @@ module.exports.getUser = (req, res) => {
         return;
       }
 
-      res.status(500).send({ message: `Что-то пошло не так... ${err.message}` });
+      res
+        .status(500)
+        .send({ message: `Что-то пошло не так... ${err.message}` });
     });
 };
 
@@ -34,11 +38,15 @@ module.exports.createUser = (req, res) => {
     .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: `Данные не прошли валидацию: ${err.message}` });
+        res
+          .status(400)
+          .send({ message: `Данные не прошли валидацию: ${err.message}` });
         return;
       }
 
-      res.status(500).send({ message: `Что-то пошло не так... ${err.message}` });
+      res
+        .status(500)
+        .send({ message: `Что-то пошло не так... ${err.message}` });
     });
 };
 
@@ -54,12 +62,16 @@ module.exports.updateUserProfile = (req, res) => {
     .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: `Данные не прошли валидацию: ${err.message}` });
+        res
+          .status(400)
+          .send({ message: `Данные не прошли валидацию: ${err.message}` });
         return;
       }
 
       if (err.message === 'ErrorUpdatingUserProfile') {
-        res.status(404).send({ message: 'Пользователь с указанным ID отсутствует' });
+        res
+          .status(404)
+          .send({ message: 'Пользователь с указанным ID отсутствует' });
         return;
       }
 
@@ -68,7 +80,9 @@ module.exports.updateUserProfile = (req, res) => {
         return;
       }
 
-      res.status(500).send({ message: `Что-то пошло не так... ${err.message}` });
+      res
+        .status(500)
+        .send({ message: `Что-то пошло не так... ${err.message}` });
     });
 };
 
@@ -84,12 +98,16 @@ module.exports.updateUserAvatar = (req, res) => {
     .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: `Данные не прошли валидацию: ${err.message}` });
+        res
+          .status(400)
+          .send({ message: `Данные не прошли валидацию: ${err.message}` });
         return;
       }
 
       if (err.message === 'ErrorUpdatingUserAvatar') {
-        res.status(404).send({ message: 'Пользователь с указанным ID отсутствует' });
+        res
+          .status(404)
+          .send({ message: 'Пользователь с указанным ID отсутствует' });
         return;
       }
 
@@ -98,6 +116,8 @@ module.exports.updateUserAvatar = (req, res) => {
         return;
       }
 
-      res.status(500).send({ message: `Что-то пошло не так... ${err.message}` });
+      res
+        .status(500)
+        .send({ message: `Что-то пошло не так... ${err.message}` });
     });
 };
