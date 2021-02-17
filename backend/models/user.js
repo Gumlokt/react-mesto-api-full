@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -44,5 +45,24 @@ const userSchema = new mongoose.Schema({
     minlength: 3,
   },
 });
+
+// eslint-disable-next-line func-names
+userSchema.statics.findUserByCredentials = function (email, password) {
+  // this будет являться экземпляром модели User, создаваемым в controllers/users.js
+  return this.findOne({ email }).then((user) => {
+    if (!user) {
+      return Promise.reject(new Error('Неправильные E-Mail или пароль'));
+    }
+
+    // нашёлся — сравниваем хеши
+    return bcrypt.compare(password, user.password).then((matched) => {
+      if (!matched) {
+        return Promise.reject(new Error('Неправильные E-Mail или пароль'));
+      }
+
+      return user; // но переменной user нет в этой области видимости
+    });
+  });
+};
 
 module.exports = mongoose.model('user', userSchema);

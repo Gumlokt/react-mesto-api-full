@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 module.exports.getUser = (req, res) => {
@@ -131,4 +132,46 @@ module.exports.updateUserAvatar = (req, res) => {
         .status(500)
         .send({ message: `Что-то пошло не так... ${err.message}` });
     });
+};
+
+module.exports.login = (req, res) => {
+  const { email, password } = req.body;
+
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, 'MY-SECRET-KEY', {
+        expiresIn: '7d',
+      });
+      res.status(200).send({ token });
+    })
+    .catch((err) => {
+      // Если пришел Promise.reject, значит пользователь не аутентифицировался
+      res.status(401).send({ message: err.message });
+    });
+
+  // User.findOne({ email })
+  //   .then((user) => {
+  //     if (!user) {
+  //       return Promise.reject(new Error('Неправильные E-Mail или пароль'));
+  //     }
+
+  //     // пользователь найден
+  //     return bcrypt.compare(password, user.password);
+  //   })
+  //   .then((matched) => {
+  //     if (!matched) {
+  //       // хеши не совпали — отклоняем промис
+  //       return Promise.reject(new Error('Неправильные E-Mail или пароль'));
+  //     }
+
+  //     // аутентификация успешна
+  //     // создать JWT сроком на неделю и в пейлоуд токена записать
+  //     // свойство _id, содержащее идентификатор пользователя:
+  //     // { _id: "d285e3dceed844f902650f40" }
+  //     res.send({ message: 'Всё верно!' });
+  //   })
+  //   .catch((err) => {
+  //     // возвращаем ошибку аутентификации
+  //     res.status(401).send({ message: err.message });
+  //   });
 };
