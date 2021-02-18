@@ -43,26 +43,29 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 3,
+    select: false,
   },
 });
 
 // eslint-disable-next-line func-names
 userSchema.statics.findUserByCredentials = function (email, password) {
   // this будет являться экземпляром модели User, создаваемым в controllers/users.js
-  return this.findOne({ email }).then((user) => {
-    if (!user) {
-      return Promise.reject(new Error('Неправильные E-Mail или пароль'));
-    }
-
-    // нашёлся — сравниваем хеши
-    return bcrypt.compare(password, user.password).then((matched) => {
-      if (!matched) {
+  return this.findOne({ email })
+    .select('+password')
+    .then((user) => {
+      if (!user) {
         return Promise.reject(new Error('Неправильные E-Mail или пароль'));
       }
 
-      return user; // но переменной user нет в этой области видимости
+      // нашёлся — сравниваем хеши
+      return bcrypt.compare(password, user.password).then((matched) => {
+        if (!matched) {
+          return Promise.reject(new Error('Неправильные E-Mail или пароль'));
+        }
+
+        return user; // но переменной user нет в этой области видимости
+      });
     });
-  });
 };
 
 module.exports = mongoose.model('user', userSchema);
