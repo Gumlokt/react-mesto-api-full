@@ -30,7 +30,10 @@ module.exports.createCard = (req, res) => {
 };
 
 module.exports.removeCard = (req, res) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  Card.findOneAndRemove({
+    _id: req.params.cardId,
+    owner: { _id: req.user._id },
+  })
     .orFail(new Error('ErrorCardDeletion'))
     .then((card) => {
       res.status(200).send({ data: card, message: 'Карточка удалена' });
