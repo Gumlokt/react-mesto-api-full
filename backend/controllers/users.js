@@ -62,6 +62,18 @@ module.exports.createUser = (req, res) => {
     });
 };
 
+module.exports.getUserProfile = (req, res) => {
+  User.findById(req.user._id)
+    .then((user) => {
+      res.status(200).send({ data: user });
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .send({ message: `Что-то пошло не так... ${err.message}` });
+    });
+};
+
 module.exports.updateUserProfile = (req, res) => {
   const { name, about } = req.body;
 
