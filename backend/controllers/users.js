@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+// const NotFoundError = require('./errors/not-found-err');
 
 module.exports.getUser = (req, res) => {
   User.findById(req.params.userId)
