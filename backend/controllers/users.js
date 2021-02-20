@@ -1,7 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-// const NotFoundError = require('./errors/not-found-err');
+const NotFoundError = require('../errors/not-found-error'); // 404 error
+const BadRequestError = require('../errors/bad-request-error'); // 400 error
 
 module.exports.getUser = (req, res) => {
   User.findById(req.params.userId)
@@ -11,15 +12,17 @@ module.exports.getUser = (req, res) => {
     })
     .catch((err) => {
       if (err.message === 'ErrorGettingUserProfile') {
-        res
-          .status(404)
-          .send({ message: 'Пользователь с указанным ID отсутствует' });
-        return;
+        // res
+        //   .status(404)
+        //   .send({ message: 'Пользователь с указанным ID отсутствует' });
+        // return;
+        throw new NotFoundError('Пользователь с указанным ID отсутствует');
       }
 
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Указан не валидный ID пользователя' });
-        return;
+        // res.status(400).send({ message: 'Указан не валидный ID пользователя' });
+        // return;
+        throw new BadRequestError('Указан не валидный ID пользователя');
       }
 
       res
