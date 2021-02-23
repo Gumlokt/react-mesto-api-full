@@ -5,10 +5,11 @@ const mongoose = require('mongoose');
 const usersRoutes = require('./routes/users');
 const cardsRoutes = require('./routes/cards');
 
-const { login, createUser } = require('./controllers/users');
+const { login, createUser } = require('./controllers/auth');
 
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
+const validation = require('./middlewares/validation');
 
 const { NotFoundError } = require('./errors');
 
@@ -24,8 +25,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.post('/signin', validation, login);
+app.post('/signup', validation, createUser);
 
 // всем остальным роутам идущим ниже требуется авторизация
 app.use(auth);
