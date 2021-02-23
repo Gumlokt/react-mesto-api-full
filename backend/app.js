@@ -6,7 +6,11 @@ const usersRoutes = require('./routes/users');
 const cardsRoutes = require('./routes/cards');
 
 const { login, createUser } = require('./controllers/users');
+
 const auth = require('./middlewares/auth');
+const errorHandler = require('./middlewares/errorHandler');
+
+const { NotFoundError } = require('./errors');
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -29,20 +33,12 @@ app.use(auth);
 app.use('/', usersRoutes);
 app.use('/', cardsRoutes);
 
-app.use('*', (req, res) => {
-  res.status(404).send({ message: 'Запрашиваемый ресурс не найден' });
+app.use('*', (req, res, next) => {
+  next(new NotFoundError('Запрашиваемый ресурс не найден'));
 });
 
 // централизованный обработчик ошибок
-app.use((err, req, res, next) => {
-  // если у ошибки нет статуса, выставляем 500
-  const { statusCode = 500, message } = err;
-
-  res.status(statusCode).send({
-    // проверяем статус и выставляем сообщение в зависимости от него
-    message: statusCode === 500 ? 'На сервере произошла ошибка' : message,
-  });
-});
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
+const stringValidator = require('validator');
 const bcrypt = require('bcryptjs');
+
+const { UnauthorizedError } = require('../errors');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -33,11 +35,15 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
     validate: {
-      validator(v) {
-        return validator.isEmail(v);
-      },
+      validator: (v) => stringValidator.isEmail(v),
       message: 'Не корректный E-Mail',
     },
+    // validate: {
+    //   validator(v) {
+    //     return stringValidator.isEmail(v);
+    //   },
+    //   message: 'Не корректный E-Mail',
+    // },
   },
   password: {
     type: String,
@@ -54,13 +60,17 @@ userSchema.statics.findUserByCredentials = function (email, password) {
     .select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error('Неправильные E-Mail или пароль'));
+        return Promise.reject(
+          new UnauthorizedError('Неправильные E-Mail или пароль'),
+        );
       }
 
       // нашёлся — сравниваем хеши
       return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
-          return Promise.reject(new Error('Неправильные E-Mail или пароль'));
+          return Promise.reject(
+            new UnauthorizedError('Неправильные E-Mail или пароль'),
+          );
         }
 
         return user; // но переменной user нет в этой области видимости
