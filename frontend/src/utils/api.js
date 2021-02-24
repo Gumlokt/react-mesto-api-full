@@ -64,7 +64,7 @@ class Api {
       .then((res) => {
         return this._getResponseData(
           res,
-          'Данные пользователя не обновлены...'
+          'Данные пользователя не обновлены...',
         );
       })
       .catch((err) => console.log(err));
@@ -115,7 +115,7 @@ class Api {
 
 /** Object with methods to send and request all data on the server side. */
 export const api = new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-16',
+  url: 'https://api.gumlokt.students.nomoreparties.space',
   headers: {
     authorization: '7e8aae9c-bb81-4fe9-ac24-f206bc985678',
     'Content-Type': 'application/json',
