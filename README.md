@@ -15,15 +15,15 @@
 - CSS
 - BEM
 - Figma
-- Адаптивный дизайн
+- Adaptive design
 - JavaScript
 - OOP
 - API
 - React
-- JWT authentication
 - Node.js
 - Express.js
 - Mongodb
 - Mongoose
+- JWT authentication
 - Validation
-- Error logging
+- Logging
