@@ -109,7 +109,7 @@ function App() {
           .getContent(token)
           .then((res) => {
             if (res) {
-              setUserEmail(res.data.email);
+              setUserEmail(res.email);
               handleLoggedIn(true);
               history.push('/');
             }

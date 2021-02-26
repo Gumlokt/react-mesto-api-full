@@ -73,7 +73,6 @@ function Dashboard(props) {
         closeAllPopups();
       })
       .catch((err) => {
-        console.log('err');
         console.log(err);
       });
   }
@@ -89,7 +88,7 @@ function Dashboard(props) {
       .catch((err) => console.log(err));
   }
 
-  function handleAddPlaceSubmi(newCardData) {
+  function handleAddPlaceSubmit(newCardData) {
     api
       .addCard(newCardData)
       .then((addedCard) => {
@@ -102,6 +101,7 @@ function Dashboard(props) {
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i._id === props.currentUser._id);
+    // console.log(card.likes);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api
@@ -163,7 +163,7 @@ function Dashboard(props) {
       <AddPlacePopup
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
-        onAddCard={handleAddPlaceSubmi}
+        onAddCard={handleAddPlaceSubmit}
       />
 
       <PopupWithForm

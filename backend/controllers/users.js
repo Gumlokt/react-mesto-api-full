@@ -2,20 +2,22 @@ const User = require('../models/user');
 
 const { BadRequestError, NotFoundError } = require('../errors');
 
-module.exports.getUser = (req, res, next) => {
-  User.findById(req.params.userId)
-    .orFail(new NotFoundError('Пользователь с указанным ID отсутствует'))
-    .then((user) => {
-      res.status(200).send({ data: user });
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Указан не валидный ID пользователя'));
-      }
+// module.exports.getUser = (req, res, next) => {
+//   console.log(`user id: ${req.params.userId}`);
 
-      next(err);
-    });
-};
+//   User.findById(req.params.userId)
+//     .orFail(new NotFoundError('Пользователь с указанным ID отсутствует'))
+//     .then((user) => {
+//       res.status(200).send({ data: user });
+//     })
+//     .catch((err) => {
+//       if (err.name === 'CastError') {
+//         next(new BadRequestError('Указан не валидный ID пользователя...'));
+//       }
+
+//       next(err);
+//     });
+// };
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -25,10 +27,23 @@ module.exports.getUsers = (req, res, next) => {
 
 module.exports.getUserProfile = (req, res, next) => {
   User.findById(req.user._id)
+    .orFail(
+      new NotFoundError('Пользователь с указанным ID отсутствует (getProfile)'),
+    )
     .then((user) => {
       res.status(200).send({ data: user });
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        next(
+          new BadRequestError(
+            'Указан не валидный ID пользователя (getProfile)',
+          ),
+        );
+      }
+
+      next(err);
+    });
 };
 
 module.exports.updateUserProfile = (req, res, next) => {

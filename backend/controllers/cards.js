@@ -46,6 +46,7 @@ module.exports.setCardLike = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
+    .populate('user')
     .orFail(new NotFoundError('Карточка с указанным ID отсутствует'))
     .then((card) => {
       res.status(200).send({ data: card });
@@ -65,6 +66,7 @@ module.exports.unsetCardLike = (req, res, next) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
+    .populate('user')
     .orFail(new NotFoundError('Карточка с указанным ID отсутствует'))
     .then((card) => res.status(200).send({ data: card }))
     .catch((err) => {

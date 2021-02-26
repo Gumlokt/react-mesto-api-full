@@ -13,8 +13,8 @@ router.post('/cards', createCard);
 
 router.delete('/cards/:cardId', removeCard);
 
-router.put('/cards/:cardId/likes', setCardLike);
+router.put('/cards/likes/:cardId', setCardLike);
 
-router.delete('/cards/:cardId/likes', unsetCardLike);
+router.delete('/cards/likes/:cardId', unsetCardLike);
 
 module.exports = router;

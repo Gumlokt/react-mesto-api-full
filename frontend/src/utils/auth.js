@@ -1,4 +1,5 @@
-export const BASE_URL = 'https://api.gumlokt.students.nomoreparties.space';
+export const BASE_URL = 'http://api.gumlokt.students.nomoreparties.space';
+// export const BASE_URL = 'https://auth.nomoreparties.co';
 
 export const register = ({ email, password }) => {
   return fetch(`${BASE_URL}/signup`, {
