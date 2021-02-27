@@ -52,6 +52,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // логгер запросов
 app.use(requestLogger);
 
+// for crash-test
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 app.post('/signin', validation, login);
 app.post('/signup', validation, createUser);
 
