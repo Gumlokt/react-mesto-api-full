@@ -3,6 +3,7 @@ const config = {
   SECRET_KEY: 'MY-SECRET-KEY',
   SECRET_TTL: '7d',
   allowedCors: [
+    'http://178.154.226.175',
     'http://gumlokt.students.nomoreparties.space',
     'http://www.gumlokt.students.nomoreparties.space',
     'https://gumlokt.students.nomoreparties.space',
