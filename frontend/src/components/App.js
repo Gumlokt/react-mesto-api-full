@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import * as auth from '../utils/auth.js';
+import { api } from '../utils/api';
 
 import Header from './Header';
 import Dashboard from './Dashboard';
@@ -15,7 +16,12 @@ function App() {
   const history = useHistory();
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
-  const [currentUser, setCurrentUser] = useState({ name: '', about: '' });
+  const [currentUser, setCurrentUser] = useState({
+    name: '',
+    about: '',
+    avatar: '',
+    email: '',
+  });
   const [isInformerPopupOpen, setInformerPopupOpen] = useState(false);
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [messageToUser, setMessageToUser] = useState('');
@@ -34,6 +40,10 @@ function App() {
 
   function handleLoggedIn(trueOrFalse) {
     setLoggedIn(trueOrFalse);
+    if (!trueOrFalse) {
+      handleUser({ name: '', about: '', avatar: '', email: '' });
+      setUserEmail('');
+    }
   }
 
   function openInformerPopup(message, successIcon = false) {
@@ -67,12 +77,27 @@ function App() {
           openInformerPopup(data.message);
           return;
         } else if (data.token) {
-          setCredentials({ email: '', password: '' });
-          handleLoggedIn(true);
-          history.push('/');
+          api.setToken(data.token);
+          return data.token;
         } else {
           openInformerPopup('Барабашка взял так и учудил конкретно :-)');
+          return;
         }
+      })
+      .then((token) => {
+        auth
+          .getContent(token)
+          .then((res) => {
+            if (res) {
+              setUserEmail(res.email);
+              handleLoggedIn(true);
+              setCredentials({ email: '', password: '' });
+              history.push('/');
+
+              // return;
+            }
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   }

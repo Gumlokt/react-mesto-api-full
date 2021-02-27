@@ -12,6 +12,10 @@ class Api {
     return Promise.reject(new Error(`Ошибка: ${res.status}. ${err}`));
   }
 
+  setToken(token) {
+    this._headers.Authorization = `Bearer ${token}`;
+  }
+
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
       headers: this._headers,
