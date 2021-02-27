@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY = require('../config');
+const { SECRET_KEY } = require('../config');
 const UnauthorizedError = require('../errors/UnauthorizedError'); // 401 - что-то не так при аутентификации или авторизации
 
 module.exports = (req, res, next) => {
