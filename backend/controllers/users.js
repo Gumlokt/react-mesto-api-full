@@ -2,26 +2,9 @@ const User = require('../models/user');
 
 const { BadRequestError, NotFoundError } = require('../errors');
 
-// module.exports.getUser = (req, res, next) => {
-//   console.log(`user id: ${req.params.userId}`);
-
-//   User.findById(req.params.userId)
-//     .orFail(new NotFoundError('Пользователь с указанным ID отсутствует'))
-//     .then((user) => {
-//       res.status(200).send({ data: user });
-//     })
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new BadRequestError('Указан не валидный ID пользователя...'));
-//       }
-
-//       next(err);
-//     });
-// };
-
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.status(200).send({ data: users }))
+    .then((users) => res.status(200).send(users))
     .catch(next);
 };
 
@@ -31,7 +14,7 @@ module.exports.getUserProfile = (req, res, next) => {
       new NotFoundError('Пользователь с указанным ID отсутствует (getProfile)'),
     )
     .then((user) => {
-      res.status(200).send({ data: user });
+      res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -55,7 +38,7 @@ module.exports.updateUserProfile = (req, res, next) => {
     { new: true, runValidators: true, upsert: true },
   )
     .orFail(new NotFoundError('Пользователь с указанным ID отсутствует'))
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(
@@ -82,7 +65,7 @@ module.exports.updateUserAvatar = (req, res, next) => {
     { new: true, runValidators: true, upsert: true },
   )
     .orFail(new NotFoundError('Пользователь с указанным ID отсутствует'))
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(

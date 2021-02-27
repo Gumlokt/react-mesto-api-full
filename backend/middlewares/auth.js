@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+const SECRET_KEY = require('../config');
 const UnauthorizedError = require('../errors/UnauthorizedError'); // 401 - что-то не так при аутентификации или авторизации
 
 module.exports = (req, res, next) => {
@@ -15,8 +16,7 @@ module.exports = (req, res, next) => {
   let payload;
 
   try {
-    // do not forget to place MY-SECRET-KEY to apropriate function call in users.js
-    payload = jwt.verify(token, 'MY-SECRET-KEY');
+    payload = jwt.verify(token, SECRET_KEY);
   } catch (err) {
     throw new UnauthorizedError('Необходима авторизация. Неверный token.');
   }

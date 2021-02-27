@@ -115,10 +115,9 @@ class Api {
 
 /** Object with methods to send and request all data on the server side. */
 export const api = new Api({
-  // url: 'https://mesto.nomoreparties.co/v1/cohort-16',
   url: 'http://api.gumlokt.students.nomoreparties.space',
+  // url: 'http://localhost:4000',
   headers: {
-    // authorization: '7e8aae9c-bb81-4fe9-ac24-f206bc985678',
     Authorization: `Bearer ${localStorage.getItem('token')}`,
     'Content-Type': 'application/json',
     Accept: 'application/json',
