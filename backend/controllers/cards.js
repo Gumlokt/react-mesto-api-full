@@ -1,6 +1,6 @@
 const Card = require('../models/card');
 
-const { BadRequestError, NotFoundError } = require('../errors');
+const { BadRequestError, NotFoundError, ForbiddenError } = require('../errors');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
@@ -39,13 +39,30 @@ module.exports.createCard = (req, res, next) => {
 };
 
 module.exports.removeCard = (req, res, next) => {
-  Card.findOneAndRemove({
-    _id: req.params.cardId,
-    owner: { _id: req.user._id },
-  })
+  Card.findById(req.params.cardId)
     .orFail(new NotFoundError('Карточка с указанным ID отсутствует'))
-    .then((card) => {
-      res.status(200).send({ data: card, message: 'Карточка удалена' });
+    .then((cardToRemove) => {
+      if (cardToRemove.owner._id.toString() === req.user._id) {
+        Card.findOneAndRemove({
+          _id: req.params.cardId,
+          owner: { _id: req.user._id },
+        })
+          .orFail(new NotFoundError('Карточка с указанным ID отсутствует'))
+          .then((card) => {
+            res.status(200).send({ data: card, message: 'Карточка удалена' });
+          })
+          .catch((err) => {
+            if (err.name === 'CastError') {
+              next(new BadRequestError('Указан не валидный ID карточки'));
+            }
+
+            next(err);
+          });
+      } else {
+        next(
+          new ForbiddenError('Нельзя удалять карточки других пользователей'),
+        );
+      }
     })
     .catch((err) => {
       if (err.name === 'CastError') {

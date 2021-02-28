@@ -56,3 +56,11 @@ module.exports.authorizedRequestsValidation = celebrate({
     }),
   },
 });
+
+module.exports.checkAuthHeader = celebrate({
+  headers: Joi.object({
+    authorization: Joi.string().required().messages({
+      'any.required': 'Заголовок Authorization - обязательное поле',
+    }),
+  }).unknown(),
+});

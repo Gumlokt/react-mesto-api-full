@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+
 const usersRoutes = require('./routes/users');
 const cardsRoutes = require('./routes/cards');
 
@@ -9,7 +12,10 @@ const { login, createUser } = require('./controllers/auth');
 
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
-const { unAuthorizedRequestsValidation } = require('./middlewares/validation');
+const {
+  unAuthorizedRequestsValidation,
+  checkAuthHeader,
+} = require('./middlewares/validation');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { NotFoundError } = require('./errors');
@@ -24,6 +30,16 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 
 const { PORT = DEFAULT_PORT } = process.env;
 const app = express();
+
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+  }),
+);
+
+app.use(helmet());
+app.disable('x-powered-by');
 
 app.options('*', (req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
@@ -41,9 +57,8 @@ app.use((req, res, next) => {
       'Origin, X-Requested-With, Content-Type, Accept, Origin, Authorization',
     );
     res.header('Access-Control-Allow-Methods', 'GET,PUT,PATCH,POST,DELETE');
-
-    next();
   }
+  next();
 });
 
 app.use(bodyParser.json());
@@ -63,10 +78,8 @@ app.post('/signin', unAuthorizedRequestsValidation, login);
 app.post('/signup', unAuthorizedRequestsValidation, createUser);
 
 // всем остальным роутам идущим ниже требуется авторизация
-app.use(auth);
-
-app.use('/', usersRoutes);
-app.use('/', cardsRoutes);
+app.use('/', checkAuthHeader, auth, usersRoutes);
+app.use('/', checkAuthHeader, auth, cardsRoutes);
 
 app.use('*', (req, res, next) => {
   next(new NotFoundError('Запрашиваемый ресурс не найден'));
@@ -79,5 +92,6 @@ app.use(errorLogger);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`App listening on port ${PORT}`);
 });
