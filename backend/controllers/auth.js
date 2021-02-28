@@ -29,7 +29,7 @@ module.exports.createUser = (req, res, next) => {
             password: hash,
           });
         })
-        .then((user) => res.status(200).send({ data: user }))
+        .then((createdUser) => res.status(200).send({ data: createdUser }))
         .catch((err) => {
           if (err.name === 'ValidationError') {
             next(

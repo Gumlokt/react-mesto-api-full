@@ -39,6 +39,7 @@ class Api {
   }
 
   deleteCard(id) {
+    // return fetch(`${this._url}/cards/test4583q0d2574b5862test`, {
     return fetch(`${this._url}/cards/${id}`, {
       method: 'DELETE',
       headers: this._headers,
@@ -119,7 +120,7 @@ class Api {
 
 /** Object with methods to send and request all data on the server side. */
 export const api = new Api({
-  url: 'http://api.gumlokt.students.nomoreparties.space',
+  url: 'http://api.gumlokt.students.nomoredomains.icu',
   // url: 'http://localhost:4000',
   headers: {
     Authorization: `Bearer ${localStorage.getItem('token')}`,

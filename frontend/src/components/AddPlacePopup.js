@@ -40,7 +40,7 @@ function AddPlacePopup(props) {
           className="form__text-input"
           name="name"
           placeholder="Название"
-          minLength="1"
+          minLength="2"
           maxLength="30"
           id="name"
           required

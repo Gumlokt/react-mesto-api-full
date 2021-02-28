@@ -9,7 +9,7 @@ const { login, createUser } = require('./controllers/auth');
 
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/errorHandler');
-const validation = require('./middlewares/validation');
+const { unAuthorizedRequestsValidation } = require('./middlewares/validation');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { NotFoundError } = require('./errors');
@@ -59,8 +59,8 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signin', validation, login);
-app.post('/signup', validation, createUser);
+app.post('/signin', unAuthorizedRequestsValidation, login);
+app.post('/signup', unAuthorizedRequestsValidation, createUser);
 
 // всем остальным роутам идущим ниже требуется авторизация
 app.use(auth);

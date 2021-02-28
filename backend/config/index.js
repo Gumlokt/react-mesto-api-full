@@ -3,11 +3,12 @@ const config = {
   SECRET_KEY: 'MY-SECRET-KEY',
   SECRET_TTL: '7d',
   allowedCors: [
+    // 'http://localhost:3000',
     'http://178.154.226.175',
-    'http://gumlokt.students.nomoreparties.space',
-    'http://www.gumlokt.students.nomoreparties.space',
-    'https://gumlokt.students.nomoreparties.space',
-    'https://www.gumlokt.students.nomoreparties.space',
+    'http://gumlokt.students.nomoredomains.icu',
+    'http://www.gumlokt.students.nomoredomains.icu',
+    'https://gumlokt.students.nomoredomains.icu',
+    'https://www.gumlokt.students.nomoredomains.icu',
   ],
 };
 

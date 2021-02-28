@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://api.gumlokt.students.nomoreparties.space';
+export const BASE_URL = 'http://api.gumlokt.students.nomoredomains.icu';
 // export const BASE_URL = 'http://localhost:4000';
 
 export const register = ({ email, password }) => {

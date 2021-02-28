@@ -9,6 +9,7 @@ import EditProfilePopup from './EditProfilePopup';
 import AddPlacePopup from './AddPlacePopup';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import InfoTooltip from './InfoTooltip';
 
 import { api } from '../utils/api';
 
@@ -120,10 +121,14 @@ function Dashboard(props) {
     api
       .deleteCard(card._id)
       .then((newCard) => {
-        // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
-        const newCards = cards.filter((c) => c._id !== card._id);
-        // Обновляем стейт
-        setCards(newCards);
+        if (newCard) {
+          // Формируем новый массив на основе имеющегося, подставляя в него новую карточку
+          const newCards = cards.filter((c) => c._id !== card._id);
+          // Обновляем стейт
+          setCards(newCards);
+        } else {
+          props.openInformerPopup('Карточка не удалена');
+        }
       })
       .catch((err) => console.log(err));
   }
@@ -178,6 +183,13 @@ function Dashboard(props) {
         card={selectedCard}
         isOpen={isImagePopupOpen}
         onClose={closeAllPopups}
+      />
+
+      <InfoTooltip
+        message={props.message}
+        successIcon={props.successIcon}
+        isOpen={props.isOpen}
+        onClose={props.onClose}
       />
     </>
   );

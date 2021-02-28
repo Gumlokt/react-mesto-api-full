@@ -3,11 +3,9 @@ const { CelebrateError } = require('celebrate');
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
   if (err instanceof CelebrateError) {
-    const errorBody = err.details.get('body'); // 'details' is a Map()
-
     const {
       details: [errorDetails],
-    } = errorBody;
+    } = err.details.get([...err.details.keys()][0]);
 
     res.status(400).send({ message: errorDetails.message });
     return;

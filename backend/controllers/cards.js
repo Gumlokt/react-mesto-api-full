@@ -13,18 +13,20 @@ module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: req.user._id })
-    .then((card) =>
-      // eslint-disable-next-line implicit-arrow-linebreak
-      Card.findById(card._id)
-        .populate(['owner', 'likes'])
-        .orFail(new NotFoundError('Карточка с указанным ID отсутствует'))
-        .catch((err) => {
-          if (err.name === 'CastError') {
-            next(new BadRequestError('Указан не валидный ID карточки'));
-          }
+    .then(
+      (card) =>
+        // eslint-disable-next-line implicit-arrow-linebreak
+        Card.findById(card._id)
+          .populate(['owner', 'likes'])
+          .orFail(new NotFoundError('Карточка с указанным ID отсутствует'))
+          .catch((err) => {
+            if (err.name === 'CastError') {
+              next(new BadRequestError('Указан не валидный ID карточки'));
+            }
 
-          next(err);
-        }),
+            next(err);
+          }),
+      // eslint-disable-next-line function-paren-newline
     )
     .then((card) => res.status(200).send(card))
     .catch((err) => {

@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const { authorizedRequestsValidation } = require('../middlewares/validation');
+
 const {
   getCards,
   createCard,
@@ -7,14 +9,18 @@ const {
   unsetCardLike,
 } = require('../controllers/cards');
 
-router.get('/cards', getCards);
+router.get('/cards', getCards); // not to validate
 
-router.post('/cards', createCard);
+router.post('/cards', authorizedRequestsValidation, createCard);
 
-router.delete('/cards/:cardId', removeCard);
+router.delete('/cards/:cardId', authorizedRequestsValidation, removeCard);
 
-router.put('/cards/likes/:cardId', setCardLike);
+router.put('/cards/likes/:cardId', authorizedRequestsValidation, setCardLike);
 
-router.delete('/cards/likes/:cardId', unsetCardLike);
+router.delete(
+  '/cards/likes/:cardId',
+  authorizedRequestsValidation,
+  unsetCardLike,
+);
 
 module.exports = router;

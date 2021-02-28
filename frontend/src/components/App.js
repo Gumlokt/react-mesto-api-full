@@ -69,19 +69,21 @@ function App() {
       .authorize(credentials)
       .then((data) => {
         if (!data) {
-          openInformerPopup('Что-то пошло не так!');
-          return;
+          openInformerPopup('Что-то пошло не так с валидацией');
+          return Promise.reject(new Error('Что-то пошло не так с валидацией'));
         }
 
         if (data.message) {
           openInformerPopup(data.message);
-          return;
+          return Promise.reject(new Error(data.message));
         } else if (data.token) {
           api.setToken(data.token);
           return data.token;
         } else {
           openInformerPopup('Барабашка взял так и учудил конкретно :-)');
-          return;
+          return Promise.reject(
+            new Error('Барабашка взял так и учудил конкретно :-)'),
+          );
         }
       })
       .then((token) => {
@@ -93,8 +95,6 @@ function App() {
               handleLoggedIn(true);
               setCredentials({ email: '', password: '' });
               history.push('/');
-
-              // return;
             }
           })
           .catch((err) => console.log(err));
@@ -180,6 +180,7 @@ function App() {
             userEmail={userEmail}
             onLogout={handleLoggedIn}
             component={Dashboard}
+            openInformerPopup={openInformerPopup}
           />
         </CurrentUserContext.Provider>
       </Switch>
