@@ -120,7 +120,7 @@ class Api {
 
 /** Object with methods to send and request all data on the server side. */
 export const api = new Api({
-  url: 'http://api.gumlokt.students.nomoredomains.icu',
+  url: 'https://api.gumlokt.students.nomoredomains.icu',
   // url: 'http://localhost:4000',
   headers: {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
